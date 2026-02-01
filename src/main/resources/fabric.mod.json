@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "cft-2-mod",
+	"version": "${version}",
+	"name": "CFT 2 Mod",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/cft-2-mod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.lildan42.cft.CFT2Mod"
+		],
+		"client": [
+			"com.lildan42.cft.CFT2ModClient"
+		],
+		"fabric-datagen": [
+			"com.lildan42.cft.CFT2ModDataGenerator"
+		]
+	},
+	"mixins": [
+		"cft-2-mod.mixins.json",
+		{
+			"config": "cft-2-mod.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.18.3",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
