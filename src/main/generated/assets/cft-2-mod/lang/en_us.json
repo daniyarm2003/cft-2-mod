@@ -20,7 +20,11 @@
   "entity.cft-2-mod.fighter7_6": "fighter7",
   "entity.cft-2-mod.fighter8_7": "fighter8",
   "entity.cft-2-mod.fighter9_8": "fighter9",
+  "hud.cft-2-mod.fight.fighters": "%s vs %s",
+  "hud.cft-2-mod.fight.timer": "Time: %s",
   "item.cft-2-mod.cft_removal_wand": "CFT Removal Wand",
   "messages.cft-2-mod.backgroundFightEnded": "Fights Completed: %d, Winner: %s",
+  "messages.cft-2-mod.foregroundFightEnded": "Fight ended in %s",
+  "messages.cft-2-mod.foregroundFightEndedHp": "Winner has %d/%d HP remaining",
   "tag.entity_type.cft-2-mod.cft_fighters": "CFT Fighters"
 }

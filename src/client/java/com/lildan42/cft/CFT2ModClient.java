@@ -1,6 +1,7 @@
 package com.lildan42.cft;
 
 import com.lildan42.cft.fights.ClientCFTFightManager;
+import com.lildan42.cft.hud.CFT2ModHudElements;
 import com.lildan42.cft.initialization.CFT2Initializer;
 import com.lildan42.cft.initialization.CFT2ModEntitiesClient;
 import com.lildan42.cft.packets.CFT2ClientPacketHandlers;
@@ -14,7 +15,8 @@ public class CFT2ModClient implements ClientModInitializer {
 
 	private final List<CFT2Initializer> initializers = List.of(
 			new CFT2ModEntitiesClient(),
-			new CFT2ClientPacketHandlers(this.fightManager)
+			new CFT2ClientPacketHandlers(this.fightManager),
+			new CFT2ModHudElements(this.fightManager)
 	);
 
 	@Override

@@ -1,6 +1,8 @@
 package com.lildan42.cft.datagen;
 
 import com.lildan42.cft.CFT2Mod;
+import com.lildan42.cft.fights.ClientCFTFightManager;
+import com.lildan42.cft.hud.CFTFightHudElement;
 import com.lildan42.cft.initialization.CFT2ModAttributes;
 import com.lildan42.cft.initialization.CFT2ModEntities;
 import com.lildan42.cft.initialization.CFT2ModItems;
@@ -41,7 +43,13 @@ public class CFTFighterTranslationProvider extends FabricLanguageProvider {
         translationBuilder.add(CFT2ModEntities.CFT_FIGHTER_PROJECTILE, "CFT Fighter Projectile");
         translationBuilder.add(CFT2ModEntities.CFT_FIGHTER_ENTITY_TAG, "CFT Fighters");
 
-        translationBuilder.add(CFT2Mod.getTranslatableKey("messages", "backgroundFightEnded"), "Fights Completed: %d, Winner: %s");
+        translationBuilder.add(ClientCFTFightManager.BACKGROUND_FIGHT_ENDED_TRANSLATABLE_KEY, "Fights Completed: %d, Winner: %s");
+        translationBuilder.add(ClientCFTFightManager.FOREGROUND_FIGHT_ENDED_TRANSLATABLE_KEY, "Fight ended in %s");
+        translationBuilder.add(ClientCFTFightManager.FOREGROUND_FIGHT_ENDED_HP_TRANSLATABLE_KEY, "Winner has %d/%d HP remaining");
+
         translationBuilder.add(CFT2Mod.getTranslatableKey("commands", "message.arenasDeployed"), "Fight arenas have been deployed successfully!");
+
+        translationBuilder.add(CFTFightHudElement.FIGHTERS_TEXT_TRANSLATABLE_KEY, "%s vs %s");
+        translationBuilder.add(CFTFightHudElement.TIMER_TEXT_TRANSLATABLE_KEY, "Time: %s");
     }
 }

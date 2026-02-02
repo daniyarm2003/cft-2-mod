@@ -18,7 +18,6 @@ public class CFT2ModEntitiesClient implements CFT2Initializer {
 
     @Override
     public void initialize(Logger logger) {
-        // EntityRendererRegistryImpl.register(CFT2ModEntities.CFT_FIGHTER_ENTITY_TYPE, CFTFighterEntityRenderer::new);
 
         for (Iterator<FighterEntityRegistryContext> it = CFT2ModEntities.getFighterRegistryIterator(); it.hasNext(); ) {
             FighterEntityRegistryContext context = it.next();

@@ -29,7 +29,7 @@ public class CFTFightEndPacketHandler implements ClientPlayNetworking.PlayPayloa
             }
 
             Integer winnerId = payload.winnerId().isPresent() ? payload.winnerId().getAsInt() : null;
-            this.fightManager.handleFightEnd(fightId, winnerId, context.player());
+            this.fightManager.handleFightEnd(fightId, winnerId, context.player(), context.client());
         });
     }
 }
