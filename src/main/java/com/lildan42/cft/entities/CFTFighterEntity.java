@@ -124,7 +124,7 @@ public class CFTFighterEntity extends PathAwareEntity {
     public static DefaultAttributeContainer.Builder createAttributes(Fighter fighter) {
         double baseMultiplier = 0.4;
 
-        double baseAtkDamage = 5.0;
+        double baseAtkDamage = 1.0;
         double atkDamage = baseAtkDamage * (1.0 + fighter.getSkillLevel(FighterSkill.SkillType.ATTACK) * baseMultiplier);
 
         double baseDefense = 2.0;
@@ -148,7 +148,7 @@ public class CFTFighterEntity extends PathAwareEntity {
         return MobEntity.createMobAttributes()
                 .add(EntityAttributes.FOLLOW_RANGE, 50.0)
                 .add(EntityAttributes.ATTACK_DAMAGE, atkDamage)
-                .add(EntityAttributes.MAX_HEALTH, 250.0)
+                .add(EntityAttributes.MAX_HEALTH, fighter.getHealth())
                 .add(EntityAttributes.MOVEMENT_SPEED, 0.38)
                 .add(EntityAttributes.ARMOR, defense)
                 .add(CFT2ModAttributes.CFT_FIGHTER_PROJECTILE_DAMAGE, projDamage)

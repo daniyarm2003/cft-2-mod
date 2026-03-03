@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+@Deprecated
 public class GzipJsonCFTSaveContextSerializer implements CFTSaveContextSerializer {
     private final ObjectMapper jsonMapper;
 

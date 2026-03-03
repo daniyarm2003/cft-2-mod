@@ -8,6 +8,8 @@ import java.util.List;
 
 public class CFTState {
     private List<Fighter> fighters;
+    private int cftEventsPassed = 0;
+
     private final Saver stateSaver;
 
     public CFTState(Saver stateSaver) {
@@ -18,7 +20,9 @@ public class CFTState {
     public void loadState() throws IOException {
         if(this.stateSaver.isSaved()) {
             SaveContext saveContext = this.stateSaver.load();
+
             this.fighters = new ArrayList<>(saveContext.fighters());
+            this.cftEventsPassed = saveContext.cftEventsPassed();
         }
     }
 
@@ -31,10 +35,10 @@ public class CFTState {
     }
 
     private SaveContext getSaveContext() {
-        return new SaveContext(List.copyOf(this.fighters));
+        return new SaveContext(List.copyOf(this.fighters), this.cftEventsPassed);
     }
 
-    public record SaveContext(List<Fighter> fighters) {}
+    public record SaveContext(List<Fighter> fighters, int cftEventsPassed) {}
 
     public interface Saver {
         void save(SaveContext context) throws IOException;

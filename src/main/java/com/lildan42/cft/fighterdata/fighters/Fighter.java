@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lildan42.cft.CFT2Mod;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE, fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -20,26 +19,18 @@ public class Fighter {
     private final List<FighterSkill> skills;
 
     private boolean deleted = false;
-
-    public Fighter(int id, String name) {
-        this.id = id;
-        this.name = name;
-        this.skills = new ArrayList<>();
-
-        for(FighterSkill.SkillType skillType : FighterSkill.SkillType.values()) {
-            this.skills.add(new FighterSkill(skillType, 0.0));
-        }
-    }
+    private final double health;
 
     @JsonCreator
     public Fighter(@JsonProperty("id") int id, @JsonProperty("name") String name,
                    @JsonProperty("skills") List<FighterSkill> skills,
-                   @JsonProperty("deleted") boolean deleted) {
+                   @JsonProperty("deleted") boolean deleted, @JsonProperty("health") double health) {
 
         this.id = id;
         this.name = name;
         this.skills = List.copyOf(skills);
         this.deleted = deleted;
+        this.health = health;
     }
 
     public double getSkillLevel(FighterSkill.SkillType skillType) {
@@ -50,6 +41,14 @@ public class Fighter {
         }
 
         return 0.0;
+    }
+
+    public double getHealth() {
+        return this.health;
+    }
+
+    public FighterHeartClass getHeartClass() {
+        return FighterHeartClass.getHealthClassByHealthValue(this.getHealth());
     }
 
     public int getId() {

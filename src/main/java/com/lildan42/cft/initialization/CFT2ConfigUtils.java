@@ -2,10 +2,7 @@ package com.lildan42.cft.initialization;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lildan42.cft.CFT2Mod;
-import com.lildan42.cft.fighterdata.state.CFTSaveContextSerializer;
-import com.lildan42.cft.fighterdata.state.CFTState;
-import com.lildan42.cft.fighterdata.state.FileCFTStateSaver;
-import com.lildan42.cft.fighterdata.state.GzipJsonCFTSaveContextSerializer;
+import com.lildan42.cft.fighterdata.state.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,7 +45,7 @@ public class CFT2ConfigUtils {
     public static CFTState loadCFTState(ObjectMapper jsonMapper, CFT2Properties config) {
         File saveFile = config.getSaveFile();
 
-        CFTSaveContextSerializer contextSerializer = new GzipJsonCFTSaveContextSerializer(jsonMapper);
+        CFTSaveContextSerializer contextSerializer = new JsonCFTSaveContextSerializer(jsonMapper, true);
         FileCFTStateSaver stateSaver = new FileCFTStateSaver(saveFile, contextSerializer);
         CFTState cftState = new CFTState(stateSaver);
 
