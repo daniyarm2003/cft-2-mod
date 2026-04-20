@@ -3,10 +3,7 @@ package com.lildan42.cft.datagen;
 import com.lildan42.cft.CFT2Mod;
 import com.lildan42.cft.fights.ClientCFTFightManager;
 import com.lildan42.cft.hud.CFTFightHudElement;
-import com.lildan42.cft.initialization.CFT2ModAttributes;
-import com.lildan42.cft.initialization.CFT2ModEntities;
-import com.lildan42.cft.initialization.CFT2ModItems;
-import com.lildan42.cft.initialization.FighterEntityRegistryContext;
+import com.lildan42.cft.initialization.*;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.registry.RegistryWrapper;
@@ -28,6 +25,8 @@ public class CFTFighterTranslationProvider extends FabricLanguageProvider {
         }
 
         translationBuilder.add(CFT2ModItems.CFT_REMOVAL_WAND, "CFT Removal Wand");
+        translationBuilder.add(CFT2ModItems.CFT_SHURIKEN_ITEM, "CFT Shuriken");
+
         translationBuilder.add(CFT2Mod.getTranslatableKey("chatMessage", "entity_deleted"), "%s was deleted by the CFT");
 
         translationBuilder.add(CFT2ModAttributes.CFT_FIGHTER_BLOCK_CHANCE, "CFT Fighter Block Chance");
@@ -41,6 +40,8 @@ public class CFTFighterTranslationProvider extends FabricLanguageProvider {
         translationBuilder.add(CFT2Mod.getTranslatableKey("commands", "message.statsExported"), "CFT fight statistics export complete!");
 
         translationBuilder.add(CFT2ModEntities.CFT_FIGHTER_PROJECTILE, "CFT Fighter Projectile");
+        translationBuilder.add(CFT2ModEntities.CFT_SHURIKEN, "CFT Shuriken");
+
         translationBuilder.add(CFT2ModEntities.CFT_FIGHTER_ENTITY_TAG, "CFT Fighters");
 
         translationBuilder.add(ClientCFTFightManager.BACKGROUND_FIGHT_ENDED_TRANSLATABLE_KEY, "Fights Completed: %d, Winner: %s");
