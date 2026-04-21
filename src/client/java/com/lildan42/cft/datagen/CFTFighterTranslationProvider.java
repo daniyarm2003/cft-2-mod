@@ -52,5 +52,7 @@ public class CFTFighterTranslationProvider extends FabricLanguageProvider {
 
         translationBuilder.add(CFTFightHudElement.FIGHTERS_TEXT_TRANSLATABLE_KEY, "%s vs %s");
         translationBuilder.add(CFTFightHudElement.TIMER_TEXT_TRANSLATABLE_KEY, "Time: %s");
+
+        translationBuilder.add("death.attack.cftShurikenDamage", "%1$s was killed by a CFT shuriken");
     }
 }

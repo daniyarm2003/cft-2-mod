@@ -9,6 +9,7 @@
   "commands.cft-2-mod.failed.invalidFighterId": "CFT fighter IDs must be used for CFT fights",
   "commands.cft-2-mod.message.arenasDeployed": "Fight arenas have been deployed successfully!",
   "commands.cft-2-mod.message.statsExported": "CFT fight statistics export complete!",
+  "death.attack.cftShurikenDamage": "%1$s was killed by a CFT shuriken",
   "entity.cft-2-mod.cft_fighter_entity_projectile": "CFT Fighter Projectile",
   "entity.cft-2-mod.cft_shuriken": "CFT Shuriken",
   "entity.cft-2-mod.fighter10_9": "fighter10",
