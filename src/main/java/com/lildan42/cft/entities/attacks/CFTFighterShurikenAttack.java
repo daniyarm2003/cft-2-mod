@@ -11,7 +11,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class CFTFighterShurikenAttack implements CFTFighterSpecialAttack {
-    private static final float DAMAGE_MULTIPLER = 0.1F;
+    private static final float DAMAGE_MULTIPLER = 0.09F;
     private static final float PROJECTILE_DIVERGENCE = 1.0F;
 
     @Override

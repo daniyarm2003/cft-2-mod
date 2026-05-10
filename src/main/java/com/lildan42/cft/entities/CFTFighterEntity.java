@@ -14,6 +14,9 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
@@ -22,11 +25,16 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 
 public class CFTFighterEntity extends PathAwareEntity {
 
     public static final String ENTITY_NAME = "cft_fighter";
+    private static final int BLOCK_INDICATOR_MAX_TICKS = 40;
+
+    private static final TrackedData<Integer> BLOCK_INDICATOR_REMAINING_TICKS = DataTracker.registerData(CFTFighterEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     private final Fighter fighterData;
     private CFTFight fight;
@@ -34,6 +42,12 @@ public class CFTFighterEntity extends PathAwareEntity {
     public CFTFighterEntity(EntityType<CFTFighterEntity> entityType, World world, Fighter fighterData) {
         super(entityType, world);
         this.fighterData = fighterData;
+    }
+
+    @Override
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(BLOCK_INDICATOR_REMAINING_TICKS, 0);
     }
 
     @Override
@@ -46,6 +60,25 @@ public class CFTFighterEntity extends PathAwareEntity {
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, CFTFighterEntity.class, false));
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, SheepEntity.class, false));
         this.targetSelector.add(3, new ActiveTargetGoal<>(this, IronGolemEntity.class, false));
+    }
+
+    private void onBlock(ServerWorld world) {
+        world.playSound(this, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK.value(), SoundCategory.HOSTILE);
+        this.dataTracker.set(BLOCK_INDICATOR_REMAINING_TICKS, BLOCK_INDICATOR_MAX_TICKS);
+    }
+
+    public float getBlockOpacity() {
+        return (float)this.dataTracker.get(BLOCK_INDICATOR_REMAINING_TICKS) / (float)BLOCK_INDICATOR_MAX_TICKS;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        int remainingBlockTicks = this.dataTracker.get(BLOCK_INDICATOR_REMAINING_TICKS);
+
+        if(!this.getEntityWorld().isClient() && remainingBlockTicks > 0) {
+            this.dataTracker.set(BLOCK_INDICATOR_REMAINING_TICKS, remainingBlockTicks - 1);
+        }
     }
 
     @Override
@@ -75,6 +108,7 @@ public class CFTFighterEntity extends PathAwareEntity {
         double blockChance = this.getAttributeValue(CFT2ModAttributes.CFT_FIGHTER_BLOCK_CHANCE);
 
         if(this.random.nextDouble() < blockChance && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY) && !source.isOf(DamageTypes.MAGIC)) {
+            this.onBlock(world);
             return false;
         }
 
@@ -131,15 +165,15 @@ public class CFTFighterEntity extends PathAwareEntity {
 
         double criticalMultiplier = 1.0 + fighter.getSkillLevel(FighterSkill.SkillType.CRITICAL_DAMAGE) * baseMultiplier;
 
-        double baseCriticalChance = 0.15;
+        double baseCriticalChance = 0.1;
         double maxCriticalChance = 0.75;
-        double criticalChance = Math.min(baseCriticalChance * fighter.getSkillLevel(FighterSkill.SkillType.CRITICAL_CHANCE) * baseMultiplier, maxCriticalChance);
+        double criticalChance = Math.min(baseCriticalChance * fighter.getSkillLevel(FighterSkill.SkillType.CRITICAL_CHANCE), maxCriticalChance);
 
-        double baseBlockChance = 0.15;
+        double baseBlockChance = 0.1;
         double maxBlockChance = 0.75;
-        double blockChance = Math.min(baseBlockChance * fighter.getSkillLevel(FighterSkill.SkillType.BLOCK_CHANCE) * baseMultiplier, maxBlockChance);
+        double blockChance = Math.min(baseBlockChance * fighter.getSkillLevel(FighterSkill.SkillType.BLOCK_CHANCE), maxBlockChance);
 
-        double attackCooldownMultiplier = 2.0 / (1.0 + fighter.getSkillLevel(FighterSkill.SkillType.ATTACK_SPEED) * baseMultiplier);
+        double attackCooldownMultiplier = 2.0 / (1.0 + fighter.getSkillLevel(FighterSkill.SkillType.ATTACK_SPEED));
 
         return MobEntity.createMobAttributes()
                 .add(EntityAttributes.FOLLOW_RANGE, 50.0)

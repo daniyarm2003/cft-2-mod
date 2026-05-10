@@ -9,6 +9,7 @@ import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.DefaultSkinHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.ColorHelper;
 
 public class CFTFighterEntityRenderer extends MobEntityRenderer<CFTFighterEntity, CFTFighterEntityRenderState, CFTFighterEntityModel> {
 
@@ -31,7 +32,15 @@ public class CFTFighterEntityRenderer extends MobEntityRenderer<CFTFighterEntity
     @Override
     public void updateRenderState(CFTFighterEntity fighter, CFTFighterEntityRenderState renderState, float tickProgress) {
         super.updateRenderState(fighter, renderState, tickProgress);
+
         BipedEntityRenderer.updateBipedRenderState(fighter, renderState, tickProgress, this.itemModelResolver);
+        renderState.blockOpacity = fighter.getBlockOpacity();
+    }
+
+    @Override
+    protected int getMixColor(CFTFighterEntityRenderState state) {
+        float filter = 255.0F * (1.0F - state.blockOpacity);
+        return ColorHelper.getArgb((int)filter, (int)filter, 255);
     }
 
     @Override
