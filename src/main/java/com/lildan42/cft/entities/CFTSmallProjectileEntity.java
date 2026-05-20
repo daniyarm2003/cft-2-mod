@@ -24,25 +24,25 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
-public class CFTShurikenEntity extends ProjectileEntity implements FlyingItemEntity {
-    public static final String ENTITY_NAME = "cft_shuriken";
+public class CFTSmallProjectileEntity extends ProjectileEntity implements FlyingItemEntity {
+    public static final String ENTITY_NAME = "cft_small_projectile";
     public static final Identifier ENTITY_ID = CFT2Mod.createModIdentifier(ENTITY_NAME);
 
-    private static final TrackedData<Float> DAMAGE = DataTracker.registerData(CFTShurikenEntity.class, TrackedDataHandlerRegistry.FLOAT);
+    private static final TrackedData<Float> DAMAGE = DataTracker.registerData(CFTSmallProjectileEntity.class, TrackedDataHandlerRegistry.FLOAT);
     private static final float DEFAULT_DAMAGE = 10.0f;
     private static final String DAMAGE_TAG_KEY = "ProjectileDamage";
 
-    private static final TrackedData<ItemStack> ITEM = DataTracker.registerData(CFTShurikenEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
+    private static final TrackedData<ItemStack> ITEM = DataTracker.registerData(CFTSmallProjectileEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
     private static final String ITEM_TAG_KEY = "Item";
 
-    public CFTShurikenEntity(EntityType<CFTShurikenEntity> entityType, World world) {
+    public CFTSmallProjectileEntity(EntityType<CFTSmallProjectileEntity> entityType, World world) {
         super(entityType, world);
     }
 
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         builder.add(DAMAGE, DEFAULT_DAMAGE);
-        builder.add(ITEM, CFT2ModItems.CFT_SHURIKEN_ITEM.getDefaultStack());
+        builder.add(ITEM, CFT2ModItems.CFT_SMALL_PROJECTILE_ITEM.getDefaultStack());
     }
 
     @Override
@@ -54,14 +54,14 @@ public class CFTShurikenEntity extends ProjectileEntity implements FlyingItemEnt
             return;
         }
 
-        if(hitEntity instanceof CFTFighterProjectileEntity || hitEntity instanceof CFTShurikenEntity) {
+        if(hitEntity instanceof CFTFighterProjectileEntity || hitEntity instanceof CFTSmallProjectileEntity) {
             hitEntity.remove(RemovalReason.KILLED);
             this.remove(RemovalReason.KILLED);
 
             return;
         }
 
-        hitEntity.damage((ServerWorld) world, world.getDamageSources().create(CFT2ModDamageTypes.CFT_SHURIKEN_DAMAGE), this.getDamage());
+        hitEntity.damage((ServerWorld) world, world.getDamageSources().create(CFT2ModDamageTypes.CFT_SMALL_PROJECTILE_DAMAGE), this.getDamage());
 
         this.remove(RemovalReason.KILLED);
     }
@@ -75,7 +75,7 @@ public class CFTShurikenEntity extends ProjectileEntity implements FlyingItemEnt
             return;
         }
 
-        HitResult hitResult = ProjectileUtil.getCollision(this, e -> e instanceof LivingEntity || e instanceof CFTFighterProjectileEntity || e instanceof CFTShurikenEntity, RaycastContext.ShapeType.COLLIDER);
+        HitResult hitResult = ProjectileUtil.getCollision(this, e -> e instanceof LivingEntity || e instanceof CFTFighterProjectileEntity || e instanceof CFTSmallProjectileEntity, RaycastContext.ShapeType.COLLIDER);
         Vec3d pos = hitResult.getType() != HitResult.Type.MISS ? hitResult.getPos() : this.getEntityPos().add(this.getVelocity());
 
         this.setPosition(pos);
@@ -106,7 +106,7 @@ public class CFTShurikenEntity extends ProjectileEntity implements FlyingItemEnt
         return this.dataTracker.get(ITEM);
     }
 
-    private void setStack(ItemStack stack) {
+    public void setItemStack(ItemStack stack) {
         this.dataTracker.set(ITEM, stack.copyWithCount(1));
     }
 
@@ -123,6 +123,6 @@ public class CFTShurikenEntity extends ProjectileEntity implements FlyingItemEnt
         super.readCustomData(view);
 
         this.setDamage(view.getFloat(DAMAGE_TAG_KEY, DEFAULT_DAMAGE));
-        this.setStack(view.read(ITEM_TAG_KEY, ItemStack.CODEC).orElseGet(CFT2ModItems.CFT_SHURIKEN_ITEM::getDefaultStack));
+        this.setItemStack(view.read(ITEM_TAG_KEY, ItemStack.CODEC).orElseGet(CFT2ModItems.CFT_SMALL_PROJECTILE_ITEM::getDefaultStack));
     }
 }

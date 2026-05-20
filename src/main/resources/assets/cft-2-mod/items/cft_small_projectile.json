@@ -1,0 +1,27 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:component",
+    "component": "cft-2-mod:small_projectile_type",
+    "cases": [
+      {
+        "when": "BASEBALL",
+        "model": {
+          "type": "minecraft:model",
+          "model": "cft-2-mod:item/cft_baseball"
+        }
+      },
+      {
+        "when": "KNIFE",
+        "model": {
+          "type": "minecraft:model",
+          "model": "cft-2-mod:item/cft_knife"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "cft-2-mod:item/cft_shuriken"
+    }
+  }
+}

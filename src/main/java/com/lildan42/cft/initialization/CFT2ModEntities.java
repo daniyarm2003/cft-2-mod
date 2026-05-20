@@ -1,15 +1,10 @@
 package com.lildan42.cft.initialization;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lildan42.cft.CFT2Mod;
 import com.lildan42.cft.entities.CFTFighterEntity;
 import com.lildan42.cft.entities.CFTFighterProjectileEntity;
-import com.lildan42.cft.entities.CFTShurikenEntity;
+import com.lildan42.cft.entities.CFTSmallProjectileEntity;
 import com.lildan42.cft.fighterdata.fighters.Fighter;
-import com.lildan42.cft.fighterdata.state.CFTSaveContextSerializer;
-import com.lildan42.cft.fighterdata.state.CFTState;
-import com.lildan42.cft.fighterdata.state.FileCFTStateSaver;
-import com.lildan42.cft.fighterdata.state.GzipJsonCFTSaveContextSerializer;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -37,8 +32,8 @@ public class CFT2ModEntities implements CFT2Initializer {
             registerEntity(CFTFighterProjectileEntity.ENTITY_ID, EntityType.Builder.create(CFTFighterProjectileEntity::new, SpawnGroup.MISC)
                     .dropsNothing().dimensions(0.5F, 0.5F).eyeHeight(0.0F).maxTrackingRange(16));
 
-    public static final EntityType<CFTShurikenEntity> CFT_SHURIKEN =
-            registerEntity(CFTShurikenEntity.ENTITY_ID, EntityType.Builder.create(CFTShurikenEntity::new, SpawnGroup.MISC)
+    public static final EntityType<CFTSmallProjectileEntity> CFT_SMALL_PROJECTILE =
+            registerEntity(CFTSmallProjectileEntity.ENTITY_ID, EntityType.Builder.create(CFTSmallProjectileEntity::new, SpawnGroup.MISC)
                     .dropsNothing().dimensions(0.25F, 0.25F).maxTrackingRange(16));
 
     static {

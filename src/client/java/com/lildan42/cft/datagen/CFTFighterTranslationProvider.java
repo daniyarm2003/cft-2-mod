@@ -25,7 +25,7 @@ public class CFTFighterTranslationProvider extends FabricLanguageProvider {
         }
 
         translationBuilder.add(CFT2ModItems.CFT_REMOVAL_WAND, "CFT Removal Wand");
-        translationBuilder.add(CFT2ModItems.CFT_SHURIKEN_ITEM, "CFT Shuriken");
+        translationBuilder.add(CFT2ModItems.CFT_SMALL_PROJECTILE_ITEM, "CFT Small Projectile");
 
         translationBuilder.add(CFT2Mod.getTranslatableKey("chatMessage", "entity_deleted"), "%s was deleted by the CFT");
 
@@ -40,7 +40,7 @@ public class CFTFighterTranslationProvider extends FabricLanguageProvider {
         translationBuilder.add(CFT2Mod.getTranslatableKey("commands", "message.statsExported"), "CFT fight statistics export complete!");
 
         translationBuilder.add(CFT2ModEntities.CFT_FIGHTER_PROJECTILE, "CFT Fighter Projectile");
-        translationBuilder.add(CFT2ModEntities.CFT_SHURIKEN, "CFT Shuriken");
+        translationBuilder.add(CFT2ModEntities.CFT_SMALL_PROJECTILE, "CFT Small Projectile");
 
         translationBuilder.add(CFT2ModEntities.CFT_FIGHTER_ENTITY_TAG, "CFT Fighters");
 
@@ -53,6 +53,6 @@ public class CFTFighterTranslationProvider extends FabricLanguageProvider {
         translationBuilder.add(CFTFightHudElement.FIGHTERS_TEXT_TRANSLATABLE_KEY, "%s vs %s");
         translationBuilder.add(CFTFightHudElement.TIMER_TEXT_TRANSLATABLE_KEY, "Time: %s");
 
-        translationBuilder.add("death.attack.cftShurikenDamage", "%1$s was killed by a CFT shuriken");
+        translationBuilder.add("death.attack.cftSmallProjectileDamage", "%1$s was killed by a CFT small projectile");
     }
 }

@@ -18,6 +18,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
@@ -32,6 +33,10 @@ public class CFTFighterProjectileEntity extends ProjectileEntity {
     private static final float DEFAULT_DAMAGE = 10.0F;
     private static final String DAMAGE_TAG_KEY = "ProjectileDamage";
 
+    private static final TrackedData<Integer> PROJECTILE_COLOR = DataTracker.registerData(CFTFighterProjectileEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final int DEFAULT_PROJECTILE_COLOR = ColorHelper.getArgb(0, 128, 255);
+    private static final String PROJECTILE_COLOR_TAG_KEY = "ProjectileColor";
+
     public CFTFighterProjectileEntity(EntityType<? extends ProjectileEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -39,6 +44,7 @@ public class CFTFighterProjectileEntity extends ProjectileEntity {
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         builder.add(DAMAGE, DEFAULT_DAMAGE);
+        builder.add(PROJECTILE_COLOR, DEFAULT_PROJECTILE_COLOR);
     }
 
     public float getProjectileDamage() {
@@ -47,6 +53,14 @@ public class CFTFighterProjectileEntity extends ProjectileEntity {
 
     public void setProjectileDamage(float damage) {
         this.getDataTracker().set(DAMAGE, damage);
+    }
+
+    public int getProjectileColor() {
+        return this.getDataTracker().get(PROJECTILE_COLOR);
+    }
+
+    public void setProjectileColor(int projectileColor) {
+        this.getDataTracker().set(PROJECTILE_COLOR, projectileColor);
     }
 
     @Override
@@ -104,12 +118,16 @@ public class CFTFighterProjectileEntity extends ProjectileEntity {
     @Override
     protected void readCustomData(ReadView view) {
         super.readCustomData(view);
+
         this.setProjectileDamage(view.getFloat(DAMAGE_TAG_KEY, DEFAULT_DAMAGE));
+        this.setProjectileColor(view.getInt(PROJECTILE_COLOR_TAG_KEY, DEFAULT_PROJECTILE_COLOR));
     }
 
     @Override
     protected void writeCustomData(WriteView view) {
         super.writeCustomData(view);
+
         view.putFloat(DAMAGE_TAG_KEY, this.getProjectileDamage());
+        view.putInt(PROJECTILE_COLOR_TAG_KEY, this.getProjectileColor());
     }
 }

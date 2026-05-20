@@ -2,7 +2,7 @@ package com.lildan42.cft.initialization;
 
 import com.lildan42.cft.CFT2Mod;
 import com.lildan42.cft.items.CFTRemovalWandItem;
-import com.lildan42.cft.items.CFTShurikenItem;
+import com.lildan42.cft.items.CFTSmallProjectileItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -22,8 +22,8 @@ public class CFT2ModItems implements CFT2Initializer {
     public static final CFTRemovalWandItem CFT_REMOVAL_WAND = registerItem("cft_removal_wand",
             CFTRemovalWandItem::new, new Item.Settings().fireproof().rarity(Rarity.RARE).maxCount(1).useCooldown(1.0F));
 
-    public static final CFTShurikenItem CFT_SHURIKEN_ITEM = registerItem("cft_shuriken",
-            CFTShurikenItem::new, new Item.Settings().rarity(Rarity.UNCOMMON));
+    public static final CFTSmallProjectileItem CFT_SMALL_PROJECTILE_ITEM = registerItem("cft_small_projectile",
+            CFTSmallProjectileItem::new, new Item.Settings().rarity(Rarity.UNCOMMON));
 
     private static <T extends Item> T registerItem(String name, Function<Item.Settings, T> itemFactory, Item.Settings settings) {
         RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, CFT2Mod.createModIdentifier(name));
@@ -51,7 +51,7 @@ public class CFT2ModItems implements CFT2Initializer {
         ));
 
         this.registerCreativeTabItems(ItemGroups.COMBAT, List.of(
-                CFT_SHURIKEN_ITEM
+                CFT_SMALL_PROJECTILE_ITEM
         ));
 
         logger.info("Items have been added to creative tabs successfully");

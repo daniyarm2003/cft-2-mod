@@ -22,7 +22,7 @@ public class CFTDamageTypeProvider extends FabricDynamicRegistryProvider {
     }
 
     public static void bootstrap(Registerable<DamageType> context) {
-        context.register(CFT2ModDamageTypes.CFT_SHURIKEN_DAMAGE, new DamageType("cftShurikenDamage", 0.1F));
+        context.register(CFT2ModDamageTypes.CFT_SMALL_PROJECTILE_DAMAGE, new DamageType("cftSmallProjectileDamage", 0.1F));
     }
 
     @Override
@@ -38,7 +38,7 @@ public class CFTDamageTypeProvider extends FabricDynamicRegistryProvider {
 
         @Override
         protected void configure(RegistryWrapper.WrapperLookup registries) {
-            this.builder(DamageTypeTags.BYPASSES_COOLDOWN).add(CFT2ModDamageTypes.CFT_SHURIKEN_DAMAGE);
+            this.builder(DamageTypeTags.BYPASSES_COOLDOWN).add(CFT2ModDamageTypes.CFT_SMALL_PROJECTILE_DAMAGE);
         }
     }
 }

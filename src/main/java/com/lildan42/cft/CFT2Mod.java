@@ -32,7 +32,8 @@ public class CFT2Mod implements ModInitializer {
 			new CFT2ModEntities(),
 			new CFT2ModAttributes(),
 			new CFT2ClientBoundPackets(),
-			new CFT2ModCommands(this.fightManager)
+			new CFT2ModCommands(this.fightManager),
+			new CFT2ModDataComponentTypes()
 	);
 
 	@Override

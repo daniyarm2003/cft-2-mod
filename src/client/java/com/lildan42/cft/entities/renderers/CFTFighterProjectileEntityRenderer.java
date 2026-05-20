@@ -3,6 +3,7 @@ package com.lildan42.cft.entities.renderers;
 import com.lildan42.cft.CFT2Mod;
 import com.lildan42.cft.entities.CFTFighterProjectileEntity;
 import com.lildan42.cft.entities.models.CFTFighterProjectileEntityModel;
+import com.lildan42.cft.entities.renderstates.CFTFighterProjectileEntityRenderState;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
@@ -13,7 +14,7 @@ import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class CFTFighterProjectileEntityRenderer extends EntityRenderer<CFTFighterProjectileEntity, EntityRenderState> {
+public class CFTFighterProjectileEntityRenderer extends EntityRenderer<CFTFighterProjectileEntity, CFTFighterProjectileEntityRenderState> {
 
     private static final Identifier TEXTURE_IDENTIFIER = CFT2Mod.createModIdentifier("textures/entity/cft_fighter_projectile.png");
 
@@ -25,13 +26,19 @@ public class CFTFighterProjectileEntityRenderer extends EntityRenderer<CFTFighte
     }
 
     @Override
-    public void render(EntityRenderState renderState, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState) {
-        queue.submitModel(this.model, renderState, matrices, RenderLayers.entitySolid(TEXTURE_IDENTIFIER), renderState.light, OverlayTexture.DEFAULT_UV, renderState.outlineColor, null);
+    public void render(CFTFighterProjectileEntityRenderState renderState, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState) {
+        queue.submitModel(this.model, renderState, matrices, RenderLayers.entitySolid(TEXTURE_IDENTIFIER), renderState.light, OverlayTexture.DEFAULT_UV, renderState.projectileColor, null, renderState.outlineColor, null);
         super.render(renderState, matrices, queue, cameraState);
     }
 
     @Override
-    public EntityRenderState createRenderState() {
-        return new EntityRenderState();
+    public CFTFighterProjectileEntityRenderState createRenderState() {
+        return new CFTFighterProjectileEntityRenderState();
+    }
+
+    @Override
+    public void updateRenderState(CFTFighterProjectileEntity entity, CFTFighterProjectileEntityRenderState state, float tickProgress) {
+        super.updateRenderState(entity, state, tickProgress);
+        state.projectileColor = entity.getProjectileColor();
     }
 }

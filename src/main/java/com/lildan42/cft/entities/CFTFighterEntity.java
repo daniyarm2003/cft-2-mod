@@ -1,7 +1,7 @@
 package com.lildan42.cft.entities;
 
 import com.lildan42.cft.entities.attacks.CFTFighterAttackGoal;
-import com.lildan42.cft.entities.attacks.CFTFighterShurikenAttack;
+import com.lildan42.cft.entities.attacks.CFTFighterBallAttack;
 import com.lildan42.cft.entities.attacks.CFTFighterSpecialAttack;
 import com.lildan42.cft.fighterdata.fighters.Fighter;
 import com.lildan42.cft.fighterdata.fighters.FighterSkill;
@@ -148,7 +148,7 @@ public class CFTFighterEntity extends PathAwareEntity {
     }
 
     public CFTFighterSpecialAttack getSpecialAttack() {
-        return new CFTFighterShurikenAttack();
+        return new CFTFighterBallAttack();
     }
 
     public static DefaultAttributeContainer.Builder createAttributes(Fighter fighter) {

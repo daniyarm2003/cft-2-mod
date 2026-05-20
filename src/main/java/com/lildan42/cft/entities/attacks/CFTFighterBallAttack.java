@@ -6,6 +6,7 @@ import com.lildan42.cft.initialization.CFT2ModAttributes;
 import com.lildan42.cft.initialization.CFT2ModEntities;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -36,6 +37,7 @@ public class CFTFighterBallAttack implements CFTFighterSpecialAttack {
         projectile.setOwner(fighter);
         projectile.setVelocity(dir);
         projectile.setProjectileDamage((float)fighter.getAttributeValue(CFT2ModAttributes.CFT_FIGHTER_PROJECTILE_DAMAGE));
+        projectile.setProjectileColor(ColorHelper.fullAlpha(fighter.getRandom().nextBetween(0x0, 0xFFFFFF)));
 
         world.spawnEntity(projectile);
     }

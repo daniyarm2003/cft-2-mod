@@ -1,6 +1,6 @@
 package com.lildan42.cft.items;
 
-import com.lildan42.cft.entities.CFTShurikenEntity;
+import com.lildan42.cft.entities.CFTSmallProjectileEntity;
 import com.lildan42.cft.initialization.CFT2ModEntities;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,10 +14,10 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class CFTShurikenItem extends Item {
+public class CFTSmallProjectileItem extends Item {
     public static final double SHURIKEN_LAUNCH_SPEED = 2.0;
 
-    public CFTShurikenItem(Settings settings) {
+    public CFTSmallProjectileItem(Settings settings) {
         super(settings);
     }
 
@@ -28,7 +28,7 @@ public class CFTShurikenItem extends Item {
 
         if(!world.isClient()) {
             Vec3d launchVel = user.getRotationVector().multiply(SHURIKEN_LAUNCH_SPEED);
-            CFTShurikenEntity shuriken = CFT2ModEntities.CFT_SHURIKEN.create(world, SpawnReason.MOB_SUMMONED);
+            CFTSmallProjectileEntity shuriken = CFT2ModEntities.CFT_SMALL_PROJECTILE.create(world, SpawnReason.MOB_SUMMONED);
 
             if(shuriken == null) {
                 return ActionResult.PASS;
@@ -37,6 +37,7 @@ public class CFTShurikenItem extends Item {
             shuriken.setPosition(user.getEyePos());
             shuriken.setVelocity(launchVel);
             shuriken.setOwner(user);
+            shuriken.setItemStack(stackInHand);
 
             world.spawnEntity(shuriken);
         }

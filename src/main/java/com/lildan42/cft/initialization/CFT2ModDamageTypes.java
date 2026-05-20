@@ -7,7 +7,7 @@ import net.minecraft.registry.RegistryKeys;
 import org.slf4j.Logger;
 
 public class CFT2ModDamageTypes implements CFT2Initializer {
-    public static final RegistryKey<DamageType> CFT_SHURIKEN_DAMAGE = createDamageTypeKey("cft_shuriken_damage");
+    public static final RegistryKey<DamageType> CFT_SMALL_PROJECTILE_DAMAGE = createDamageTypeKey("cft_shuriken_damage");
 
     private static RegistryKey<DamageType> createDamageTypeKey(String path) {
         return RegistryKey.of(RegistryKeys.DAMAGE_TYPE, CFT2Mod.createModIdentifier(path));

@@ -40,7 +40,7 @@ public class CFTFighterEntityRenderer extends MobEntityRenderer<CFTFighterEntity
     @Override
     protected int getMixColor(CFTFighterEntityRenderState state) {
         float filter = 255.0F * (1.0F - state.blockOpacity);
-        return ColorHelper.getArgb((int)filter, (int)filter, 255);
+        return ColorHelper.getArgb((int)filter, 255, 255);
     }
 
     @Override

@@ -10,7 +10,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
 public class CFTFighterLightningAttack implements CFTFighterSpecialAttack {
-    private static final double DAMAGE_MULTIPLIER = 3.25;
+    private static final double DAMAGE_MULTIPLIER = 2.5;
 
     @Override
     public boolean shouldStepBack() {
