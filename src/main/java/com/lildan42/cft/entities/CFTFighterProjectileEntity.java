@@ -27,8 +27,6 @@ public class CFTFighterProjectileEntity extends ProjectileEntity {
     public static final String ENTITY_NAME = "cft_fighter_entity_projectile";
     public static final Identifier ENTITY_ID = CFT2Mod.createModIdentifier(ENTITY_NAME);
 
-    private static final int EFFECT_TICKS = 80, EFFECT_AMPLIFIER = 2;
-
     private static final TrackedData<Float> DAMAGE = DataTracker.registerData(CFTFighterProjectileEntity.class, TrackedDataHandlerRegistry.FLOAT);
     private static final float DEFAULT_DAMAGE = 10.0F;
     private static final String DAMAGE_TAG_KEY = "ProjectileDamage";
@@ -80,10 +78,6 @@ public class CFTFighterProjectileEntity extends ProjectileEntity {
         }
 
         hitEntity.damage((ServerWorld) world, world.getDamageSources().magic(), this.getProjectileDamage());
-
-        if(hitEntity instanceof LivingEntity livingEntity) {
-            livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, EFFECT_TICKS, EFFECT_AMPLIFIER));
-        }
 
         this.remove(RemovalReason.KILLED);
     }

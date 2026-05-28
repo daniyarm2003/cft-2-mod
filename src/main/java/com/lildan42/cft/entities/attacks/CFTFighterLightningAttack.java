@@ -19,7 +19,7 @@ public class CFTFighterLightningAttack implements CFTFighterSpecialAttack {
 
     @Override
     public double getCooldownMultiplier() {
-        return 3.0;
+        return 4.0;
     }
 
     @Override

@@ -26,6 +26,6 @@ public class CFT2ModHudElements implements CFT2Initializer {
     }
 
     private void registerHudElements(MinecraftClient client) {
-        HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT, CFTFightHudElement.HUD_ELEMENT_IDENTIFIER, new CFTFightHudElement(this.fightManager, client));
+        HudElementRegistry.addLast(CFTFightHudElement.HUD_ELEMENT_IDENTIFIER, new CFTFightHudElement(this.fightManager, client));
     }
 }

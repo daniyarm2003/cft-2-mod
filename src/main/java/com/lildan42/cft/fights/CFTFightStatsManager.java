@@ -22,7 +22,7 @@ public class CFTFightStatsManager implements CFTFightStatsRecorder {
         int wins = isWin ? entry.wins() + 1 : entry.wins();
         int losses = isWin ? entry.losses() : entry.losses() + 1;
 
-        this.statsEntries.put(fighter.getId(), new StatsEntry(entry.id(), entry.fighterStats(), wins, losses));
+        this.statsEntries.put(fighter.getId(), new StatsEntry(entry.id(), entry.fighterStats(), wins, losses, entry.specialAttackType()));
     }
 
     @Override
@@ -46,12 +46,12 @@ public class CFTFightStatsManager implements CFTFightStatsRecorder {
         }
     }
 
-    public record StatsEntry(int id, Map<String, Double> fighterStats, int wins, int losses) {
+    public record StatsEntry(int id, Map<String, Double> fighterStats, int wins, int losses, String specialAttackType) {
         public static StatsEntry fromFighter(Fighter fighter) {
             Map<String, Double> stats = Arrays.stream(FighterSkill.SkillType.values())
                     .collect(Collectors.toMap(FighterSkill.SkillType::getName, fighter::getSkillLevel));
 
-            return new StatsEntry(fighter.getId(), stats, 0, 0);
+            return new StatsEntry(fighter.getId(), stats, 0, 0, fighter.getSpecialAttack().getSpecialAttackType().name());
         }
     }
 
@@ -83,7 +83,7 @@ public class CFTFightStatsManager implements CFTFightStatsRecorder {
         public void export(List<StatsEntry> stats) throws IOException {
             try(FileOutputStream writeStream = new FileOutputStream(this.outputFile)) {
                 List<String> rows = new ArrayList<>();
-                List<String> header = new ArrayList<>(List.of("id", "wins", "losses"));
+                List<String> header = new ArrayList<>(List.of("id", "wins", "losses", "special_attack_type"));
 
                 for(FighterSkill.SkillType skillType : FighterSkill.SkillType.values()) {
                     String colName = skillType.getName().toLowerCase(Locale.ROOT).replace(' ', '_');
@@ -98,6 +98,7 @@ public class CFTFightStatsManager implements CFTFightStatsRecorder {
                     cols.add(String.valueOf(entry.id()));
                     cols.add(String.valueOf(entry.wins()));
                     cols.add(String.valueOf(entry.losses()));
+                    cols.add(entry.specialAttackType());
 
                     entry.fighterStats().values()
                             .stream().map(String::valueOf)

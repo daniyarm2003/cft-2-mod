@@ -18,7 +18,7 @@ public class CFTFighterAttackGoal extends MeleeAttackGoal {
 
     private final CFTFighterEntity fighter;
 
-    private final int stepBackWaitTicks;
+    private final int defaultStepBackWaitTicks;
     private final int stepBackCooldown;
 
     private int stepBackTimer = 0;
@@ -34,11 +34,11 @@ public class CFTFighterAttackGoal extends MeleeAttackGoal {
 
     private final CFTFighterAttackScheduler attackScheduler = new CFTFighterAttackScheduler();
 
-    public CFTFighterAttackGoal(CFTFighterEntity fighter, int stepBackWaitTicks, int stepBackCooldown, double stepBackChance, double stepBackVelocity) {
+    public CFTFighterAttackGoal(CFTFighterEntity fighter, int defaultStepBackWaitTicks, int stepBackCooldown, double stepBackChance, double stepBackVelocity) {
         super(fighter, 1.0, true);
 
         this.fighter = fighter;
-        this.stepBackWaitTicks = (int) ((double) stepBackWaitTicks * this.fighter.getSpecialAttack().getCooldownMultiplier());
+        this.defaultStepBackWaitTicks = defaultStepBackWaitTicks;
         this.stepBackCooldown = stepBackCooldown;
         this.stepBackChance = stepBackChance;
         this.stepBackVelocity = stepBackVelocity;
@@ -58,6 +58,10 @@ public class CFTFighterAttackGoal extends MeleeAttackGoal {
         } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public int getStepBackWaitTicks() {
+        return (int) ((double) this.defaultStepBackWaitTicks * this.fighter.getSpecialAttack().getCooldownMultiplier());
     }
 
     @Override
@@ -98,7 +102,7 @@ public class CFTFighterAttackGoal extends MeleeAttackGoal {
             }
         }
 
-        if (this.stepBackTimer < this.stepBackWaitTicks) {
+        if (this.stepBackTimer < this.getStepBackWaitTicks()) {
             this.stepBackTimer++;
         } else {
             this.stepBackTimer = 0;

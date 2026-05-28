@@ -55,14 +55,16 @@ public class CFTSmallProjectileEntity extends ProjectileEntity implements Flying
         }
 
         if(hitEntity instanceof CFTFighterProjectileEntity || hitEntity instanceof CFTSmallProjectileEntity) {
-            hitEntity.remove(RemovalReason.KILLED);
-            this.remove(RemovalReason.KILLED);
+            if(hitEntity instanceof CFTSmallProjectileEntity) {
+                hitEntity.remove(RemovalReason.KILLED);
+                return;
+            }
 
+            this.remove(RemovalReason.KILLED);
             return;
         }
 
         hitEntity.damage((ServerWorld) world, world.getDamageSources().create(CFT2ModDamageTypes.CFT_SMALL_PROJECTILE_DAMAGE), this.getDamage());
-
         this.remove(RemovalReason.KILLED);
     }
 

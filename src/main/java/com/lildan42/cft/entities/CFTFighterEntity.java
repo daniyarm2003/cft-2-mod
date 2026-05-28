@@ -1,8 +1,8 @@
 package com.lildan42.cft.entities;
 
-import com.lildan42.cft.entities.attacks.CFTFighterAttackGoal;
-import com.lildan42.cft.entities.attacks.CFTFighterBallAttack;
-import com.lildan42.cft.entities.attacks.CFTFighterSpecialAttack;
+import com.lildan42.cft.entities.attacks.*;
+import com.lildan42.cft.fighterdata.attacks.BallAttack;
+import com.lildan42.cft.fighterdata.attacks.SmallProjectileAttack;
 import com.lildan42.cft.fighterdata.fighters.Fighter;
 import com.lildan42.cft.fighterdata.fighters.FighterSkill;
 import com.lildan42.cft.fights.CFTFight;
@@ -148,7 +148,15 @@ public class CFTFighterEntity extends PathAwareEntity {
     }
 
     public CFTFighterSpecialAttack getSpecialAttack() {
-        return new CFTFighterBallAttack();
+        if(this.fighterData == null) {
+            return new CFTFighterLightningAttack();
+        }
+
+        return switch(this.fighterData.getSpecialAttack()) {
+            case BallAttack ballAttack -> new CFTFighterBallAttack(ballAttack);
+            case SmallProjectileAttack smallProjectileAttack -> new CFTFighterSmallProjectileAttack(smallProjectileAttack);
+            default -> new CFTFighterLightningAttack();
+        };
     }
 
     public static DefaultAttributeContainer.Builder createAttributes(Fighter fighter) {

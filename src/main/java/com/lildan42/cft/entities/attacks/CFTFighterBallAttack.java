@@ -2,15 +2,23 @@ package com.lildan42.cft.entities.attacks;
 
 import com.lildan42.cft.entities.CFTFighterEntity;
 import com.lildan42.cft.entities.CFTFighterProjectileEntity;
+import com.lildan42.cft.fighterdata.attacks.BallAttack;
 import com.lildan42.cft.initialization.CFT2ModAttributes;
 import com.lildan42.cft.initialization.CFT2ModEntities;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class CFTFighterBallAttack implements CFTFighterSpecialAttack {
+
+    private static final float DAMAGE_MULTIPLIER = 0.85F;
+
+    private final BallAttack ballAttack;
+
+    public CFTFighterBallAttack(BallAttack ballAttack) {
+        this.ballAttack = ballAttack;
+    }
 
     @Override
     public boolean shouldStepBack() {
@@ -36,8 +44,8 @@ public class CFTFighterBallAttack implements CFTFighterSpecialAttack {
         projectile.setPosition(fighter.getEyePos().add(dir));
         projectile.setOwner(fighter);
         projectile.setVelocity(dir);
-        projectile.setProjectileDamage((float)fighter.getAttributeValue(CFT2ModAttributes.CFT_FIGHTER_PROJECTILE_DAMAGE));
-        projectile.setProjectileColor(ColorHelper.fullAlpha(fighter.getRandom().nextBetween(0x0, 0xFFFFFF)));
+        projectile.setProjectileDamage(DAMAGE_MULTIPLIER * (float)fighter.getAttributeValue(CFT2ModAttributes.CFT_FIGHTER_PROJECTILE_DAMAGE));
+        projectile.setProjectileColor(this.ballAttack.getColor());
 
         world.spawnEntity(projectile);
     }

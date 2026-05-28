@@ -2,17 +2,26 @@ package com.lildan42.cft.entities.attacks;
 
 import com.lildan42.cft.entities.CFTFighterEntity;
 import com.lildan42.cft.entities.CFTSmallProjectileEntity;
+import com.lildan42.cft.fighterdata.attacks.SmallProjectileAttack;
 import com.lildan42.cft.initialization.CFT2ModAttributes;
+import com.lildan42.cft.initialization.CFT2ModDataComponentTypes;
 import com.lildan42.cft.initialization.CFT2ModEntities;
 import com.lildan42.cft.items.CFTSmallProjectileItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class CFTFighterSmallProjectileAttack implements CFTFighterSpecialAttack {
-    private static final float DAMAGE_MULTIPLER = 0.09F;
+    private static final float DAMAGE_MULTIPLIER = 0.1F;
     private static final float PROJECTILE_DIVERGENCE = 1.0F;
+
+    private final SmallProjectileAttack smallProjectileAttack;
+
+    public CFTFighterSmallProjectileAttack(SmallProjectileAttack smallProjectileAttack) {
+        this.smallProjectileAttack = smallProjectileAttack;
+    }
 
     @Override
     public boolean shouldStepBack() {
@@ -32,18 +41,22 @@ public class CFTFighterSmallProjectileAttack implements CFTFighterSpecialAttack 
         Vec3d dir = target.getEyePos().subtract(fighter.getEyePos()).normalize();
         World world = fighter.getEntityWorld();
 
-        CFTSmallProjectileEntity shuriken = CFT2ModEntities.CFT_SMALL_PROJECTILE.create(world, SpawnReason.MOB_SUMMONED);
+        CFTSmallProjectileEntity projectile = CFT2ModEntities.CFT_SMALL_PROJECTILE.create(world, SpawnReason.MOB_SUMMONED);
 
-        if(shuriken == null) {
+        if(projectile == null) {
             return;
         }
 
-        shuriken.setOwner(fighter);
-        shuriken.setPosition(fighter.getEyePos().add(dir));
-        shuriken.setVelocity(dir.getX(), dir.getY(), dir.getZ(), (float) CFTSmallProjectileItem.SHURIKEN_LAUNCH_SPEED, PROJECTILE_DIVERGENCE);
-        shuriken.setDamage((float)fighter.getAttributeValue(CFT2ModAttributes.CFT_FIGHTER_PROJECTILE_DAMAGE) * DAMAGE_MULTIPLER);
+        projectile.setOwner(fighter);
+        projectile.setPosition(fighter.getEyePos().add(dir));
+        projectile.setVelocity(dir.getX(), dir.getY(), dir.getZ(), (float) CFTSmallProjectileItem.SHURIKEN_LAUNCH_SPEED, PROJECTILE_DIVERGENCE);
+        projectile.setDamage((float)fighter.getAttributeValue(CFT2ModAttributes.CFT_FIGHTER_PROJECTILE_DAMAGE) * DAMAGE_MULTIPLIER);
 
-        world.spawnEntity(shuriken);
+        ItemStack projItem = projectile.getStack();
+        projItem.set(CFT2ModDataComponentTypes.CFT_SMALL_PROJECTILE_TYPE, this.smallProjectileAttack.getProjectileType());
+        projectile.setItemStack(projItem);
+
+        world.spawnEntity(projectile);
     }
 
     @Override

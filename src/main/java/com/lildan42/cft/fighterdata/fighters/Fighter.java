@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lildan42.cft.CFT2Mod;
+import com.lildan42.cft.fighterdata.attacks.SpecialAttack;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
@@ -18,19 +19,21 @@ public class Fighter {
 
     private final List<FighterSkill> skills;
 
-    private boolean deleted = false;
+    private final boolean deleted;
     private final double health;
+    private final SpecialAttack specialAttack;
 
     @JsonCreator
     public Fighter(@JsonProperty("id") int id, @JsonProperty("name") String name,
                    @JsonProperty("skills") List<FighterSkill> skills,
-                   @JsonProperty("deleted") boolean deleted, @JsonProperty("health") double health) {
+                   @JsonProperty("deleted") boolean deleted, @JsonProperty("health") double health, @JsonProperty("specialAttack") SpecialAttack specialAttack) {
 
         this.id = id;
         this.name = name;
         this.skills = List.copyOf(skills);
         this.deleted = deleted;
         this.health = health;
+        this.specialAttack = specialAttack;
     }
 
     public double getSkillLevel(FighterSkill.SkillType skillType) {
@@ -49,6 +52,10 @@ public class Fighter {
 
     public FighterHeartClass getHeartClass() {
         return FighterHeartClass.getHealthClassByHealthValue(this.getHealth());
+    }
+
+    public SpecialAttack getSpecialAttack() {
+        return specialAttack;
     }
 
     public int getId() {

@@ -50,9 +50,6 @@ public class CFTFighterTranslationProvider extends FabricLanguageProvider {
 
         translationBuilder.add(CFT2Mod.getTranslatableKey("commands", "message.arenasDeployed"), "Fight arenas have been deployed successfully!");
 
-        translationBuilder.add(CFTFightHudElement.FIGHTERS_TEXT_TRANSLATABLE_KEY, "%s vs %s");
-        translationBuilder.add(CFTFightHudElement.TIMER_TEXT_TRANSLATABLE_KEY, "Time: %s");
-
         translationBuilder.add("death.attack.cftSmallProjectileDamage", "%1$s was killed by a CFT small projectile");
     }
 }
