@@ -162,7 +162,7 @@ public class CFTFighterEntity extends PathAwareEntity {
     public static DefaultAttributeContainer.Builder createAttributes(Fighter fighter) {
         double baseMultiplier = 0.4;
 
-        double baseAtkDamage = 1.0;
+        double baseAtkDamage = fighter.getHeartClass().getStrengthScaleFactor();
         double atkDamage = baseAtkDamage * (1.0 + fighter.getSkillLevel(FighterSkill.SkillType.ATTACK) * baseMultiplier);
 
         double baseDefense = 2.0;

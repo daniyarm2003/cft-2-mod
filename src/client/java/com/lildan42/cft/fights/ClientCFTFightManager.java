@@ -42,14 +42,7 @@ public class ClientCFTFightManager extends CFTFightManager {
         CFTFight endedFight = endedFightOpt.get();
         this.fights.remove(endedFight);
 
-        Optional<CFTFighterEntity> winner;
-
-        if(winnerId != null) {
-            winner = endedFight.getFighterById(winnerId);
-        }
-        else {
-            winner = Optional.empty();
-        }
+        Optional<CFTFighterEntity> winner = winnerId != null ? endedFight.getFighterById(winnerId) : Optional.empty();
 
         if(this.foregroundFight != null && this.foregroundFight.equals(endedFight)) {
             player.sendMessage(Text.translatable(FOREGROUND_FIGHT_ENDED_TRANSLATABLE_KEY, StringFormatUtils.formatDuration(this.foregroundFight.getElapsedTime())), false);

@@ -7,6 +7,8 @@ public enum FighterHeartClass {
     RED_HEART("RH", 201.0, 500.0),
     BROWN_HEART("BRH", 501.0, 1000.0);
 
+    private static final double SCALE_FACTOR_POWER_BASE = 1.7;
+
     private final String shortName;
     private final double minHp;
     private final double maxHp;
@@ -34,6 +36,10 @@ public enum FighterHeartClass {
 
     public double getMaxHp() {
         return this.maxHp;
+    }
+
+    public double getStrengthScaleFactor() {
+        return Math.pow(SCALE_FACTOR_POWER_BASE, this.ordinal());
     }
 
     public static FighterHeartClass getHealthClassByHealthValue(double healthValue) {

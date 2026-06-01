@@ -36,8 +36,6 @@
   "entity.cft-2-mod.fighter7_7": "fighter7",
   "entity.cft-2-mod.fighter8_8": "fighter8",
   "entity.cft-2-mod.fighter9_9": "fighter9",
-  "hud.cft-2-mod.fight.fighters": "%s vs %s",
-  "hud.cft-2-mod.fight.timer": "Time: %s",
   "item.cft-2-mod.cft_removal_wand": "CFT Removal Wand",
   "item.cft-2-mod.cft_small_projectile": "CFT Small Projectile",
   "messages.cft-2-mod.backgroundFightEnded": "Fights Completed: %d, Winner: %s",

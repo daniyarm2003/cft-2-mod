@@ -5,6 +5,7 @@ import com.lildan42.cft.entities.CFTFighterEntity;
 import com.lildan42.cft.fights.CFTFight;
 import com.lildan42.cft.fights.ClientCFTFightManager;
 import com.lildan42.cft.utils.StringFormatUtils;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -13,11 +14,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
-public class CFTFightHudElement implements HudElement {
+@SuppressWarnings("deprecation")
+public class CFTFightHudElement implements HudRenderCallback {
     public static final Identifier HUD_ELEMENT_IDENTIFIER = CFT2Mod.createModIdentifier("fight");
 
     private final ClientCFTFightManager fightManager;
@@ -49,7 +52,7 @@ public class CFTFightHudElement implements HudElement {
     }
 
     @Override
-    public void render(@NotNull DrawContext context, @NotNull RenderTickCounter tickCounter) {
+    public void onHudRender(@NotNull DrawContext context, @NotNull RenderTickCounter tickCounter) {
         CFTFight fight = this.fightManager.getForegroundFight();
 
         if(fight == null || fight.getFighters().size() < 2) {
@@ -110,10 +113,16 @@ public class CFTFightHudElement implements HudElement {
         context.fill((int)fighter1BoxX, (int)timerBoxY, (int)(fighter1BoxX + fighterBoxWidth), (int)(timerBoxY + timerBoxHeight), secondaryBgColor);
         context.fill((int)fighter2BoxX, (int)timerBoxY, (int)(fighter2BoxX + fighterBoxWidth), (int)(timerBoxY + timerBoxHeight), secondaryBgColor);
 
+        String fighter1Name = fighter1.getStringifiedName();
+        String fighter2Name = fighter2.getStringifiedName() + fighter2.getStringifiedName() + fighter2.getStringifiedName();
+
         float fighter1BoxCenterX = fighter1BoxX + fighterBoxWidth / 2.0F;
         float fighter2BoxCenterX = fighter2BoxX + fighterBoxWidth / 2.0F;
 
-        this.drawCenteredScaledText(context, fighter1.getStringifiedName(), fighter1BoxCenterX, timerBoxCenterY, timerTextScale, timerTextScale, textColor);
-        this.drawCenteredScaledText(context, fighter2.getStringifiedName(), fighter2BoxCenterX, timerBoxCenterY, timerTextScale, timerTextScale, textColor);
+        float fighter1TextScale = MathHelper.clamp((0.9F * fighterBoxWidth) / (timerTextScale * this.client.textRenderer.getWidth(fighter1Name)), 0.25F, timerTextScale);
+        float fighter2TextScale = MathHelper.clamp((0.9F * fighterBoxWidth) / (timerTextScale * this.client.textRenderer.getWidth(fighter2Name)), 0.25F, timerTextScale);
+
+        this.drawCenteredScaledText(context, fighter1Name, fighter1BoxCenterX, timerBoxCenterY, fighter1TextScale, fighter1TextScale, textColor);
+        this.drawCenteredScaledText(context, fighter2Name, fighter2BoxCenterX, timerBoxCenterY, fighter2TextScale, fighter2TextScale, textColor);
     }
 }
