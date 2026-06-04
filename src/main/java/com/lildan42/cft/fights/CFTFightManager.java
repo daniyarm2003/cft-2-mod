@@ -1,7 +1,9 @@
 package com.lildan42.cft.fights;
 
+import com.lildan42.cft.CFT2Mod;
 import com.lildan42.cft.entities.CFTFighterEntity;
 import com.lildan42.cft.packets.ClientBoundCFTFightEndPacket;
+import com.lildan42.cft.packets.ClientBoundCFTFightResultsPacket;
 import com.lildan42.cft.packets.ClientBoundCFTFightStartPacket;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -14,6 +16,8 @@ import java.util.List;
 
 public class CFTFightManager {
     private static final File DEFAULT_EXPORT_FILE = new File("fights.csv");
+
+    private static final int FIGHT_STATS_SCREEN_DELAY_MILLIS = 2000;
 
     protected final List<CFTFight> fights = new ArrayList<>();
 
@@ -44,6 +48,25 @@ public class CFTFightManager {
         for(ServerPlayerEntity player : PlayerLookup.tracking(fight.getFighters().getFirst())) {
             ServerPlayNetworking.send(player, packet);
         }
+
+        if(winner == null || winner.getEntityWorld().getServer() == null) {
+            return;
+        }
+
+        Thread.startVirtualThread(() -> {
+            try {
+                Thread.sleep(FIGHT_STATS_SCREEN_DELAY_MILLIS);
+            }
+            catch (InterruptedException e) {
+                CFT2Mod.LOGGER.warn("Virtual thread sleep on fight end was interrupted");
+            }
+
+            ClientBoundCFTFightResultsPacket resultsPacket = fight.createResultsPacket(winner);
+
+            for(ServerPlayerEntity player : PlayerLookup.tracking(fight.getFighters().getFirst())) {
+                ServerPlayNetworking.send(player, resultsPacket);
+            }
+        });
     }
 
     public CFTFightStatsRecorder getStatsRecorder() {

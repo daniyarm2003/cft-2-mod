@@ -50,7 +50,7 @@ public class CFTSmallProjectileEntity extends ProjectileEntity implements Flying
         Entity hitEntity = entityHitResult.getEntity();
         World world = hitEntity.getEntityWorld();
 
-        if(world.isClient() || !(this.getOwner() instanceof LivingEntity) || hitEntity.equals(this.getOwner())) {
+        if(world.isClient() || !(this.getOwner() instanceof LivingEntity livingOwner) || hitEntity.equals(this.getOwner())) {
             return;
         }
 
@@ -64,7 +64,7 @@ public class CFTSmallProjectileEntity extends ProjectileEntity implements Flying
             return;
         }
 
-        hitEntity.damage((ServerWorld) world, world.getDamageSources().create(CFT2ModDamageTypes.CFT_SMALL_PROJECTILE_DAMAGE), this.getDamage());
+        hitEntity.damage((ServerWorld) world, world.getDamageSources().create(CFT2ModDamageTypes.CFT_SMALL_PROJECTILE_DAMAGE, this, livingOwner), this.getDamage());
         this.remove(RemovalReason.KILLED);
     }
 

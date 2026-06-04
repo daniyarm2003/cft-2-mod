@@ -2,6 +2,7 @@ package com.lildan42.cft.fights;
 
 import com.lildan42.cft.CFT2Mod;
 import com.lildan42.cft.entities.CFTFighterEntity;
+import com.lildan42.cft.hud.CFTFightResultsScreen;
 import com.lildan42.cft.utils.StringFormatUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -9,18 +10,20 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Duration;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public class ClientCFTFightManager extends CFTFightManager {
-    public static final String FOREGROUND_FIGHT_ENDED_TRANSLATABLE_KEY = CFT2Mod.getTranslatableKey("messages", "foregroundFightEnded");
-    public static final String FOREGROUND_FIGHT_ENDED_HP_TRANSLATABLE_KEY = CFT2Mod.getTranslatableKey("messages", "foregroundFightEndedHp");
 
     public static final String BACKGROUND_FIGHT_ENDED_TRANSLATABLE_KEY = CFT2Mod.getTranslatableKey("messages", "backgroundFightEnded");
 
-    private static final int HP_MESSAGE_DELAY_MILLIS = 2000;
-
     private CFTFight foregroundFight;
+
+    private UUID prevForegroundFight = null;
+    private Duration prevForegroundFightElapsedTime = null;
+
     private int finishedBackgroundFights = 0;
 
     public void handleFightStart(CFTFight fight, boolean foreground) {
@@ -31,7 +34,7 @@ public class ClientCFTFightManager extends CFTFightManager {
         }
     }
 
-    public void handleFightEnd(UUID fightId, @Nullable Integer winnerId, ClientPlayerEntity player, MinecraftClient client) {
+    public void handleFightEnd(UUID fightId, @Nullable Integer winnerId, ClientPlayerEntity player) {
         Optional<CFTFight> endedFightOpt = this.fights.stream().filter(fight -> fight.getId().equals(fightId)).findFirst();
 
         if(endedFightOpt.isEmpty()) {
@@ -45,25 +48,8 @@ public class ClientCFTFightManager extends CFTFightManager {
         Optional<CFTFighterEntity> winner = winnerId != null ? endedFight.getFighterById(winnerId) : Optional.empty();
 
         if(this.foregroundFight != null && this.foregroundFight.equals(endedFight)) {
-            player.sendMessage(Text.translatable(FOREGROUND_FIGHT_ENDED_TRANSLATABLE_KEY, StringFormatUtils.formatDuration(this.foregroundFight.getElapsedTime())), false);
-
-            if(winner.isEmpty()) {
-                return;
-            }
-
-            Thread.startVirtualThread(() -> {
-                try {
-                    Thread.sleep(HP_MESSAGE_DELAY_MILLIS);
-                }
-                catch (InterruptedException e) {
-                    CFT2Mod.LOGGER.warn("Virtual thread sleep on fight end was interrupted");
-                }
-
-                int hp = MathHelper.ceil(winner.get().getHealth());
-                int maxHp = MathHelper.ceil(winner.get().getMaxHealth());
-
-                client.execute(() -> player.sendMessage(Text.translatable(FOREGROUND_FIGHT_ENDED_HP_TRANSLATABLE_KEY, hp, maxHp), false));
-            });
+            this.prevForegroundFight = this.foregroundFight.getId();
+            this.prevForegroundFightElapsedTime = this.foregroundFight.getElapsedTime();
 
             this.foregroundFight = null;
         }
@@ -73,8 +59,16 @@ public class ClientCFTFightManager extends CFTFightManager {
         }
     }
 
+    public void handleFightResults(List<CFTFightResultsEntry> results, MinecraftClient client) {
+        client.setScreen(new CFTFightResultsScreen(this.prevForegroundFightElapsedTime, results));
+    }
+
     public CFTFight getForegroundFight() {
         return this.foregroundFight;
+    }
+
+    public boolean isPreviousForegroundFight(UUID fightId) {
+        return fightId != null && fightId.equals(this.prevForegroundFight);
     }
 
     @Override

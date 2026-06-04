@@ -57,6 +57,7 @@ public class CFTFighterSmallProjectileAttack implements CFTFighterSpecialAttack 
         projectile.setItemStack(projItem);
 
         world.spawnEntity(projectile);
+        fighter.incrementAttackCount();
     }
 
     @Override

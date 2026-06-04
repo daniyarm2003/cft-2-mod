@@ -1,12 +1,15 @@
 package com.lildan42.cft.entities;
 
+import com.lildan42.cft.CFT2Mod;
 import com.lildan42.cft.entities.attacks.*;
 import com.lildan42.cft.fighterdata.attacks.BallAttack;
 import com.lildan42.cft.fighterdata.attacks.SmallProjectileAttack;
 import com.lildan42.cft.fighterdata.fighters.Fighter;
 import com.lildan42.cft.fighterdata.fighters.FighterSkill;
 import com.lildan42.cft.fights.CFTFight;
+import com.lildan42.cft.fights.CFTFightResultsEntry;
 import com.lildan42.cft.initialization.CFT2ModAttributes;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -38,6 +41,9 @@ public class CFTFighterEntity extends PathAwareEntity {
 
     private final Fighter fighterData;
     private CFTFight fight;
+
+    private int attackCount = 0;
+    private int successfulAttackCount = 0;
 
     public CFTFighterEntity(EntityType<CFTFighterEntity> entityType, World world, Fighter fighterData) {
         super(entityType, world);
@@ -103,6 +109,20 @@ public class CFTFighterEntity extends PathAwareEntity {
         return this.fighterData;
     }
 
+    public void incrementAttackCount() {
+        this.attackCount++;
+    }
+
+    public void incrementSuccessfulAttackCount() {
+        this.successfulAttackCount++;
+    }
+
+    @Override
+    public boolean tryAttack(ServerWorld world, Entity target) {
+        this.incrementAttackCount();
+        return super.tryAttack(world, target);
+    }
+
     @Override
     public boolean damage(ServerWorld world, DamageSource source, float amount) {
         double blockChance = this.getAttributeValue(CFT2ModAttributes.CFT_FIGHTER_BLOCK_CHANCE);
@@ -110,6 +130,10 @@ public class CFTFighterEntity extends PathAwareEntity {
         if(this.random.nextDouble() < blockChance && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY) && !source.isOf(DamageTypes.MAGIC)) {
             this.onBlock(world);
             return false;
+        }
+
+        if(source.getAttacker() instanceof CFTFighterEntity otherFighter) {
+            otherFighter.incrementSuccessfulAttackCount();
         }
 
         return super.damage(world, source, amount);
@@ -136,6 +160,10 @@ public class CFTFighterEntity extends PathAwareEntity {
 
     public void setFight(CFTFight fight) {
         this.fight = fight;
+    }
+
+    public CFTFightResultsEntry getFightResults() {
+        return new CFTFightResultsEntry(this.fighterData.getName(), this.getHealth(), this.getMaxHealth(), this.successfulAttackCount, this.attackCount);
     }
 
     @Override

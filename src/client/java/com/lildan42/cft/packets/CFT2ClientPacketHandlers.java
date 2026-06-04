@@ -3,6 +3,7 @@ package com.lildan42.cft.packets;
 import com.lildan42.cft.fights.ClientCFTFightManager;
 import com.lildan42.cft.initialization.CFT2Initializer;
 import com.lildan42.cft.packets.handlers.CFTFightEndPacketHandler;
+import com.lildan42.cft.packets.handlers.CFTFightResultsPacketHandler;
 import com.lildan42.cft.packets.handlers.CFTFightStartPacketHandler;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -21,6 +22,7 @@ public class CFT2ClientPacketHandlers implements CFT2Initializer, ClientPlayConn
     private void registerPayloads() {
         ClientBoundCFTFightStartPacket.registerServerToClient();
         ClientBoundCFTFightEndPacket.registerServerToClient();
+        ClientBoundCFTFightResultsPacket.registerServerToClient();
     }
 
     private void registerPayloadHandlers() {
@@ -29,6 +31,9 @@ public class CFT2ClientPacketHandlers implements CFT2Initializer, ClientPlayConn
 
         ClientPlayNetworking.registerReceiver(ClientBoundCFTFightEndPacket.PACKET_ID,
                 new CFTFightEndPacketHandler(this.fightManager));
+
+        ClientPlayNetworking.registerReceiver(ClientBoundCFTFightResultsPacket.PACKET_ID,
+                new CFTFightResultsPacketHandler(this.fightManager));
     }
 
     @Override

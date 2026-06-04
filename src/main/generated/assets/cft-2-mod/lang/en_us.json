@@ -39,7 +39,6 @@
   "item.cft-2-mod.cft_removal_wand": "CFT Removal Wand",
   "item.cft-2-mod.cft_small_projectile": "CFT Small Projectile",
   "messages.cft-2-mod.backgroundFightEnded": "Fights Completed: %d, Winner: %s",
-  "messages.cft-2-mod.foregroundFightEnded": "Fight ended in %s",
-  "messages.cft-2-mod.foregroundFightEndedHp": "Winner has %d/%d HP remaining",
+  "screen.cft-2-mod.cft_fight_results.title": "Fight Results",
   "tag.entity_type.cft-2-mod.cft_fighters": "CFT Fighters"
 }

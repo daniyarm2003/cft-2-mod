@@ -48,5 +48,6 @@ public class CFTFighterBallAttack implements CFTFighterSpecialAttack {
         projectile.setProjectileColor(this.ballAttack.getColor());
 
         world.spawnEntity(projectile);
+        fighter.incrementAttackCount();
     }
 }

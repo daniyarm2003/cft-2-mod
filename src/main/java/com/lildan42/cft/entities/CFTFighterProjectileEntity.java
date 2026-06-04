@@ -66,7 +66,7 @@ public class CFTFighterProjectileEntity extends ProjectileEntity {
         Entity hitEntity = entityHitResult.getEntity();
         World world = hitEntity.getEntityWorld();
 
-        if(world.isClient() || !(this.getOwner() instanceof LivingEntity)) {
+        if(world.isClient() || !(this.getOwner() instanceof LivingEntity livingOwner)) {
             return;
         }
 
@@ -77,7 +77,7 @@ public class CFTFighterProjectileEntity extends ProjectileEntity {
             return;
         }
 
-        hitEntity.damage((ServerWorld) world, world.getDamageSources().magic(), this.getProjectileDamage());
+        hitEntity.damage((ServerWorld) world, world.getDamageSources().mobProjectile(this, livingOwner), this.getProjectileDamage());
 
         this.remove(RemovalReason.KILLED);
     }

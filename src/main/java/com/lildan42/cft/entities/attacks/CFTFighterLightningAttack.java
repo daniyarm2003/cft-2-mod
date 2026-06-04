@@ -37,6 +37,7 @@ public class CFTFighterLightningAttack implements CFTFighterSpecialAttack {
 
         world.spawnEntity(lightning);
 
-        target.damage((ServerWorld) world, target.getDamageSources().lightningBolt(), (float)(DAMAGE_MULTIPLIER * fighter.getAttributeValue(CFT2ModAttributes.CFT_FIGHTER_PROJECTILE_DAMAGE)));
+        fighter.incrementAttackCount();
+        target.damage((ServerWorld) world, target.getDamageSources().mobAttack(fighter), (float)(DAMAGE_MULTIPLIER * fighter.getAttributeValue(CFT2ModAttributes.CFT_FIGHTER_PROJECTILE_DAMAGE)));
     }
 }
