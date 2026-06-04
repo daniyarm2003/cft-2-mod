@@ -17,6 +17,13 @@
           "type": "minecraft:model",
           "model": "cft-2-mod:item/cft_knife"
         }
+      },
+      {
+        "when": "BULLET",
+        "model": {
+          "type": "minecraft:model",
+          "model": "cft-2-mod:item/cft_bullet"
+        }
       }
     ],
     "fallback": {
